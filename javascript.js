@@ -1,3 +1,17 @@
+const rockButton = document.createElement("button");
+rockButton.textContent = "Rock";
+
+const paperButton = document.createElement("button");
+paperButton.textContent = "Paper";
+
+const scissorsButton = document.createElement("button");
+scissorsButton.textContent = "Scissors";
+
+const container = document.getElementById("container");
+container.appendChild(rockButton);
+container.appendChild(paperButton);
+container.appendChild(scissorsButton);
+
 /// <summary>
 /// - Randomly returns either rock, paper, or scissors
 /// </summary>
@@ -37,6 +51,10 @@ function getHumanChoice() {
 /// - Announces the game winner
 /// </summary>
 function playGame() {
+  rockButton.addEventListener("click", () => playRound("rock"));
+  paperButton.addEventListener("click", () => playRound("paper"));
+  scissorsButton.addEventListener("click", () => playRound("scissors"));
+
   let humanScore = 0;
   let computerScore = 0;
 
@@ -52,9 +70,11 @@ function playGame() {
     }
   }
 
-  function playRound() {
-    let humanChoice = getHumanChoice();
+  function playRound(humanChoice) {
+    console.log("hum:", humanChoice);
+
     let computerChoice = getComputerChoice();
+    console.log("comp:", computerChoice);
 
     if (humanChoice === computerChoice) {
       console.log(
@@ -90,6 +110,7 @@ function playGame() {
     console.log("this line is running");
   }
 
+  /*
   playRound();
   playRound();
   playRound();
@@ -106,6 +127,7 @@ function playGame() {
   } else {
     console.log("It's a tie! Play again.");
   }
+  */
 }
 
 playGame();
