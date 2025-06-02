@@ -12,9 +12,17 @@ container.appendChild(rockButton);
 container.appendChild(paperButton);
 container.appendChild(scissorsButton);
 
-/// <summary>
-/// - Randomly returns either rock, paper, or scissors
-/// </summary>
+const message = document.createElement("div");
+container.appendChild(message);
+
+const results = document.createElement("div");
+container.appendChild(results);
+
+const playAgain = document.createElement("button");
+playAgain.textContent = "Play Again";
+playAgain.addEventListener("click", playGame);
+container.appendChild(playAgain);
+
 function getComputerChoice() {
   const randomDecimal = Math.random() * 3 + 1;
   const randomValue = Math.floor(randomDecimal);
@@ -29,40 +37,31 @@ function getComputerChoice() {
   }
 }
 
-/// <summary>
-/// - Takes user input
-/// - Returns choice based on input
-/// </summary>
-function getHumanChoice() {
-  const humanChoice = prompt("Rock, paper, or scissors?");
+function resetGame() {
+  rockButton.disabled = false;
+  paperButton.disabled = false;
+  scissorsButton.disabled = false;
+  playAgain.style.display = "none";
 
-  if (
-    humanChoice.toLowerCase() === "rock" ||
-    humanChoice.toLowerCase() === "paper" ||
-    humanChoice.toLowerCase() === "scissors"
-  ) {
-    return humanChoice.toLowerCase();
-  }
+  message.textContent = "Select an option to start!";
+  results.textContent = "";
 }
 
-/// <summary>
-/// - Calls playRound 5 times to play 5 rounds
-/// - Keeps score
-/// - Announces the game winner
-/// </summary>
 function playGame() {
   rockButton.addEventListener("click", () => playRound("rock"));
   paperButton.addEventListener("click", () => playRound("paper"));
   scissorsButton.addEventListener("click", () => playRound("scissors"));
 
+  resetGame();
+
   let humanScore = 0;
   let computerScore = 0;
 
-  function checkWinner(humanScore, computerScore) {
-    if (humanScore === 3) {
+  function winnerExists(humanScore, computerScore) {
+    if (humanScore === 5) {
       console.log("Human won! Computer is a loser!");
       return true;
-    } else if (computerScore === 3) {
+    } else if (computerScore === 5) {
       console.log("Computer won! Human is a loser!");
       return true;
     } else {
@@ -80,6 +79,8 @@ function playGame() {
       console.log(
         `It's a tie! Human: ${humanScore} Computer: ${computerScore}`
       );
+      message.textContent = "It's a tie!";
+      results.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
       return;
     }
 
@@ -92,6 +93,19 @@ function playGame() {
       console.log(
         `Computer wins! Human: ${humanScore} Computer: ${computerScore}`
       );
+
+      if (winnerExists(humanScore, computerScore)) {
+        message.textContent = "Game over! Computer wins.";
+        results.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
+        rockButton.disabled = true;
+        paperButton.disabled = true;
+        scissorsButton.disabled = true;
+        playAgain.style.display = "block";
+      } else {
+        message.textContent = "Computer wins!";
+        results.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
+      }
+
       return;
     }
 
@@ -104,6 +118,17 @@ function playGame() {
       console.log(
         `Human wins! Human: ${humanScore} Computer: ${computerScore}`
       );
+      if (winnerExists(humanScore, computerScore)) {
+        message.textContent = "Game over! Human wins.";
+        results.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
+        rockButton.disabled = true;
+        paperButton.disabled = true;
+        scissorsButton.disabled = true;
+        playAgain.style.display = "block";
+      } else {
+        message.textContent = "Human wins!";
+        results.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
+      }
       return;
     }
 
@@ -128,6 +153,8 @@ function playGame() {
     console.log("It's a tie! Play again.");
   }
   */
+
+  console.log("End of playGame");
 }
 
 playGame();
